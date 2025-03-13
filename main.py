@@ -16,15 +16,27 @@ prompt_process = FastSAMPrompt(IMAGE_PATH, everything_results, device=DEVICE)
 # 1 - Tout segmenter
 # 2 - Segmenter via un texte
 # input - Texte pour la segmentation
+# coordinates - Coordonnées pour la segmentation (ex: 50:50,120:80)
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--type", type=int)
 parser.add_argument("-i", "--input", type=str)
+parser.add_argument("-c", "--coordinates", type=str)
 args = parser.parse_args()
 
 if args.type == 1:
     ann = prompt_process.everything_prompt()
-else:
+elif args.type == 2:
     ann = prompt_process.text_prompt(args.input)
+elif args.type == 3:
+    coordinates = []
+    pointLabels = []
+    coordinates_args = args.coordinates.split(',')
+    for coordinates_arg in coordinates_args:
+        coordinates_number = coordinates_arg.split(':')
+        coordinates.append([int(coordinates_number[0]), int(coordinates_number[1])])
+        pointLabels.append(1)
+
+    ann = prompt_process.point_prompt(coordinates, pointLabels)
 
 prompt_process.plot(annotations=ann,output_path=OUTPUT_IMAGE_PATH)
 
