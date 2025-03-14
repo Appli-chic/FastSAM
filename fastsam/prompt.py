@@ -96,7 +96,7 @@ class FastSAMPrompt:
              withContours=True) -> np.ndarray:
         if isinstance(annotations[0], dict):
             annotations = [annotation['segmentation'] for annotation in annotations]
-        image = self.img
+        image = self.img.copy()
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         original_h = image.shape[0]
         original_w = image.shape[1]
@@ -177,6 +177,7 @@ class FastSAMPrompt:
             buf = fig.canvas.tostring_argb()
         cols, rows = fig.canvas.get_width_height()
         img_array = np.frombuffer(buf, dtype=np.uint8).reshape(rows, cols, 4)
+        img_array = img_array[:, :, [1, 2, 3]]
         result = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
         plt.close()
         return result
