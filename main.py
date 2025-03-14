@@ -5,7 +5,7 @@ import supervision as sv
 import argparse
 
 model = FastSAM('./weights/FastSAM-x.pt')
-IMAGE_PATH = 'images/dog.jpg'
+IMAGE_PATH = 'images/input.jpg'
 OUTPUT_IMAGE_PATH = 'output/output.jpg'
 DEVICE = 'cuda'
 
