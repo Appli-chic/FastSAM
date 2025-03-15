@@ -1,3 +1,5 @@
 .venv
 /weights/FastSAM-x.pt
 output
+__pycache__/
+.idea/
